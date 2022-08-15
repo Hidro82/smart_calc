@@ -59,9 +59,9 @@ int power(stack_n *N) {
     pull_number(N, &num_2);
     pull_number(N, &num_1);
     if ((num_1 == 0) && (num_2 < 0))
-        errCode = 1;
-    else if (num_1 < 0 && !floor(num_2))
         errCode = 2;
+    else if (num_1 < 0 && !floor(num_2))
+        errCode = 3;
     else {
         result = pow(num_1, num_2);
         push_number(N, &(result));

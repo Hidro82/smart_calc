@@ -1,5 +1,5 @@
 CC = gcc
-# ERRFLAGS = -Wall -Werror -Wextra
+ERRFLAGS = -Wall -Werror -Wextra
 ASAN = -fsanitize=address
 FLAGC = -c
 FLAGO = -o

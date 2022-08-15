@@ -3,18 +3,23 @@
 
 #include <stdio.h>
 #include <math.h>
+#include <stdlib.h>
 
 typedef struct number_stack {
-    double num[10];
+    double num[256];
     int count;
 } stack_n;
 
 typedef struct sign_stack {
-    char sign[10];
+    int priority[256];
+    char sign[256];
     int count;
 } stack_s;
 
-double stacker(char *og, stack_n *N, stack_s *S);
+int operand_priority(char sign);
+int calc_brain(stack_n *N, stack_s *S);
+
+int stacker(char *og, stack_n *N, stack_s *S, double *result);
 
 void push_number(stack_n *N, double *token);
 void push_sign(stack_s *S, char *token);
