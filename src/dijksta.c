@@ -13,15 +13,17 @@ int stacker(char *og, stack_n *N, stack_s *S, double *result) {
         if ((*og >= '0' && *og <= '9') || *og == '.') {
             buffer[i] = *og;
             i++;
-        } else if (i) {
-            number = atof(buffer);
-            if (be_negative) {
-                number = -number;
-            }
-            push_number(N, &number);
-            while(i) {
-                buffer[i] = '\0';
-                i--;
+        } else { 
+            if (i) {
+                number = atof(buffer);
+                if (be_negative) {
+                    number = -number;
+                }
+                push_number(N, &number);
+                while(i) {
+                    buffer[i] = '\0';
+                    i--;
+                }
             }
             if (S->count >= 1 && (S->priority[S->count - 1] > operand_priority(*og)) && (*og != 40))
                 errCode = calc_brain(N, S);
@@ -30,7 +32,6 @@ int stacker(char *og, stack_n *N, stack_s *S, double *result) {
                     be_negative = 1;
                     push_sign(S, &kostil);
                 } else {
-                    printf("gde skobka blyat!??: %c\n", *og);
                     be_negative = 0;
                     push_sign(S, og);
                 }
