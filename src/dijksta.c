@@ -5,7 +5,9 @@ int stacker(char *og, stack_n *N, stack_s *S, double *result) {
     char buffer[256] = "";
     int i = 0;
     int brace_opened = 0;
+    int be_negative = 0;
     int errCode = 0;
+    char kostil = '+';
 
     while (*og && !errCode) {
         if ((*og >= '0' && *og <= '9') || *og == '.') {
@@ -13,25 +15,38 @@ int stacker(char *og, stack_n *N, stack_s *S, double *result) {
             i++;
         } else if (i) {
             number = atof(buffer);
+            if (be_negative) {
+                number = -number;
+            }
             push_number(N, &number);
             while(i) {
                 buffer[i] = '\0';
                 i--;
             }
-            if (S->count > 1 && (S->priority[S->count - 2] > operand_priority(*og)))
+            if (S->count >= 1 && (S->priority[S->count - 1] > operand_priority(*og)) && (*og != 40))
                 errCode = calc_brain(N, S);
-            push_sign(S, og);
-            if (*og == '(') {
+            if (*og != '=') {
+                if (*og == '-') {
+                    be_negative = 1;
+                    push_sign(S, &kostil);
+                } else {
+                    printf("gde skobka blyat!??: %c\n", *og);
+                    be_negative = 0;
+                    push_sign(S, og);
+                }
+            }
+            if (*og == 40) {
                 brace_opened++;
             } else if (*og == ')') {
                 brace_opened--;
             }
             if (brace_opened < 0)
                 errCode = 5;
+            printf("sign: %s\n", S->sign);
         }
         og++;
     }
-    if (S->count != 0)
+    if (S->count > 0)
         calc_brain(N, S);
     if (brace_opened > 0)
         errCode = 6;

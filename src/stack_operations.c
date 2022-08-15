@@ -13,8 +13,10 @@ void push_sign(stack_s *S, char *token) {
 
 void pull_number(stack_n *N, double *token) {
     N->count -= 1;
-    *token = N->num[N->count];
-    N->num[N->count] = 0;
+    if (N->count >= 0) {
+        *token = N->num[N->count];
+        N->num[N->count] = 0;
+    }
 }
 
 void pull_sign(stack_s *S, char *token) {

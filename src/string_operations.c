@@ -45,5 +45,7 @@ int calc_brain(stack_n *N, stack_s *S) {
         if (!bracket)
             push_sign(S, &oper);
     }
+    if (S->count < 0)
+        S->count++;
     return errCode;
 }
