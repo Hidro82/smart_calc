@@ -19,7 +19,9 @@ void pull_number(stack_n *N, double *token) {
 
 void pull_sign(stack_s *S, char *token) {
     S->count -= 1;
-    S->priority[S->count] = 0;
-    *token = S->sign[S->count];
-    S->sign[S->count] = 0;
+    if (S->count >= 0) {
+        S->priority[S->count] = 0;
+        *token = S->sign[S->count];
+        S->sign[S->count] = 0;
+    }
 }

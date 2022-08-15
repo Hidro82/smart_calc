@@ -18,7 +18,6 @@ int stacker(char *og, stack_n *N, stack_s *S, double *result) {
                 buffer[i] = '\0';
                 i--;
             }
-        } else {
             if (S->count > 1 && (S->priority[S->count - 2] > operand_priority(*og)))
                 errCode = calc_brain(N, S);
             push_sign(S, og);
