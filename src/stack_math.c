@@ -68,3 +68,107 @@ int power(stack_n *N) {
     }
     return errCode;
 }
+
+void negativate(stack_n *N) {
+    double num = 0;
+    
+    pull_number(N, &num);
+    num = -num;
+    push_number(N, &(num));
+}
+
+void sinus(stack_n *N) {
+    double num = 0;
+    double result = 0;
+
+    pull_number(N, &num);
+    result = sin(num);
+    push_number(N, &(result));
+}
+
+void cosinus(stack_n *N) {
+    double num = 0;
+    double result = 0;
+
+    pull_number(N, &num);
+    result = cos(num);
+    push_number(N, &(result));
+}
+
+void tangens(stack_n *N) {
+    double num = 0;
+    double result = 0;
+
+    pull_number(N, &num);
+    result = tan(num);
+    push_number(N, &(result));
+}
+
+void arcsin(stack_n *N) {
+    double num = 0;
+    double result = 0;
+
+    pull_number(N, &num);
+    result = asin(num);
+    push_number(N, &(result));
+}
+
+void arccos(stack_n *N) {
+    double num = 0;
+    double result = 0;
+
+    pull_number(N, &num);
+    result = acos(num);
+    push_number(N, &(result));
+}
+
+void arctan(stack_n *N) {
+    double num = 0;
+    double result = 0;
+
+    pull_number(N, &num);
+    result = atan(num);
+    push_number(N, &(result));
+}
+
+int square(stack_n *N) {
+    double num = 0;
+    double result = 0;
+    int errCode = 0;
+
+    pull_number(N, &num);
+    if (num >= 0)
+        result = sqrt(num);
+    else
+        errCode = 7;
+    push_number(N, &(result));
+    return errCode;
+}
+
+int log_nat(stack_n *N) {
+    double num = 0;
+    double result = 0;
+    int errCode = 0;
+
+    pull_number(N, &num);
+    if (num > 0)
+        result = log(num);
+    else
+        errCode = 8;
+    push_number(N, &(result));
+    return errCode;
+}
+
+int log_ten(stack_n *N) {
+    double num = 0;
+    double result = 0;
+    int errCode = 0;
+
+    pull_number(N, &num);
+    if (num > 0)
+        result = log10(num);
+    else
+        errCode = 9;
+    push_number(N, &(result));
+    return errCode;
+}

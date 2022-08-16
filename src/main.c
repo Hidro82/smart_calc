@@ -2,13 +2,17 @@
 
 int main()
 {
+    int errCode = 0;
     stack_n N;
     stack_s S;
     N.count = 0;
     S.count = 0;
-    char *og = "36.5*2-2*(4+3^2)-13^2*13=";
+    char *og = "cos(3.14159265)=";
     double result = 0;
-    stacker(og, &N, &S, &result);
-    printf("result: %f\n", result);
+    errCode = stacker(og, &N, &S, &result);
+    if (!errCode) {
+        printf("result: %f\n", result);
+    } else
+        printf("errCode: %d\n", errCode);
     return 0;
 }

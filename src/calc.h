@@ -31,5 +31,16 @@ void suber(stack_n *N);
 void multiplier(stack_n *N);
 int divisor(stack_n *N);
 int power(stack_n *N);
+void negativate(stack_n *N);
+void negativate(stack_n *N);
+void sinus(stack_n *N);
+void cosinus(stack_n *N);
+void tangens(stack_n *N);
+void arcsin(stack_n *N);
+void arccos(stack_n *N);
+void arctan(stack_n *N);
+int square(stack_n *N);
+int log_nat(stack_n *N);
+int log_ten(stack_n *N);
 
 #endif // SRC_CALC_H_
