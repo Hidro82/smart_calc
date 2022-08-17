@@ -26,20 +26,22 @@ void smart_calc(GtkWidget *calculator, gpointer data) {
   }
 }
 
-void button_clicker(GtkButton *button, gpointer data)
-{
-    GtkEntry *entry = data;
-    const gchar *text = gtk_button_get_label(button);
-    gint position = -1;
-    gtk_editable_insert_text(GTK_EDITABLE(entry_string), text, -1, &position);
+void button_clicker(GtkButton *button, gpointer data) {
+  GtkEntry *entry = data;
+  const gchar *text = gtk_button_get_label(button);
+  gint position = -1;
+  gtk_editable_insert_text(GTK_EDITABLE(entry_string), text, -1, &position);
 }
 
-void func_button_clicker(GtkButton *button, gpointer data)
-{
-    GtkEntry *entry = data;
-    const gchar *text = gtk_button_get_label(button);
-    gint position = -1;
-    gtk_editable_insert_text(GTK_EDITABLE(entry_string), text, -1, &position);
+void func_button_clicker(GtkButton *button, gpointer data) {
+  GtkEntry *entry = data;
+  const gchar *text = gtk_button_get_label(button);
+  gint position = -1;
+  gtk_editable_insert_text(GTK_EDITABLE(entry_string), text, -1, &position);
+}
+
+void clear_button_clicker(GtkButton *button, gpointer data) {
+  gtk_entry_set_text(GTK_ENTRY(entry_string), "");
 }
 
 int main(int argc, char **argv) {
@@ -68,6 +70,7 @@ int main(int argc, char **argv) {
   GtkWidget *open_bracket;
   GtkWidget *close_bracket;
   GtkWidget *X_button;
+  GtkWidget *clear_button;
 
   GtkWidget *sin_button;
   GtkWidget *cos_button;
@@ -172,6 +175,10 @@ int main(int argc, char **argv) {
   X_button = gtk_button_new_with_label("X");
   g_signal_connect(X_button, "clicked", G_CALLBACK(button_clicker), NULL);
   gtk_grid_attach(GTK_GRID(grid), X_button, 6, 3, 1, 1);
+
+  clear_button = gtk_button_new_with_label("AC");
+  g_signal_connect(clear_button, "clicked", G_CALLBACK(clear_button_clicker), NULL);
+  gtk_grid_attach(GTK_GRID(grid), clear_button, 4, 4, 1, 1);
 
   sin_button = gtk_button_new_with_label("sin");
   g_signal_connect(sin_button, "clicked", G_CALLBACK(func_button_clicker), NULL);
