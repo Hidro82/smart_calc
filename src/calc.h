@@ -5,6 +5,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <gtk/gtk.h>
+#include <string.h>
 
 typedef struct number_stack {
     double num[256];

@@ -15,5 +15,7 @@ char *error_codes(int errCode) {
         error = "Close the bracket!";
     else if (errCode == 6)
         error = "Logarithm incorrect argument!";
+    else if (errCode == 7)
+        error = "Too many characters!";
     return error;
 }
