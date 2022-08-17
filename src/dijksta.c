@@ -8,7 +8,6 @@ int stacker(char *og, stack_n *N, stack_s *S, double *result) {
     int errCode = 0;
     char oper;
     char backup = 'z';
-    int func_flag = 0;
 
     while (*og && !errCode) {
         if ((*og >= '0' && *og <= '9') || *og == '.') {
@@ -61,9 +60,6 @@ int stacker(char *og, stack_n *N, stack_s *S, double *result) {
                 || *og == '/' || *og == '^' || *og == 'm'
                 || *og == '(' || *og == ')') {
                     push_sign(S, og);
-                } else if (*og == 'x') {
-                    push_sign(S, "x");
-                    func_flag = 1;
                 }
             }
             if (*og == '(') {
@@ -71,7 +67,7 @@ int stacker(char *og, stack_n *N, stack_s *S, double *result) {
             } else if (*og == ')') {
                 brace_opened--;
                 if (brace_opened < 0) {
-                    errCode = 5;
+                    errCode = 4;
                 } else {
                     do {
                         errCode = calc_brain(N, S);
@@ -88,7 +84,7 @@ int stacker(char *og, stack_n *N, stack_s *S, double *result) {
         while(S->count > 0 && !errCode)
             errCode = calc_brain(N, S);
     if (brace_opened > 0)
-        errCode = 6;
+        errCode = 5;
     *result = N->num[0];
     return errCode;
 }

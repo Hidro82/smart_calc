@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
+#include <gtk/gtk.h>
 
 typedef struct number_stack {
     double num[256];
@@ -30,6 +31,7 @@ void summer(stack_n *N);
 void suber(stack_n *N);
 void multiplier(stack_n *N);
 int divisor(stack_n *N);
+int modder(stack_n *N);
 int power(stack_n *N);
 void negativate(stack_n *N);
 void negativate(stack_n *N);
@@ -42,5 +44,7 @@ void arctan(stack_n *N);
 int square(stack_n *N);
 int log_nat(stack_n *N);
 int log_ten(stack_n *N);
+
+char *error_codes(int errCode);
 
 #endif // SRC_CALC_H_

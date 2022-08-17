@@ -7,7 +7,7 @@ int operand_priority(char sign) {
         result = 0;
     else if (sign == '+' || sign == '-')
         result = 1;
-    else if (sign == '*' || sign == '/')
+    else if (sign == '*' || sign == '/' || sign == 'm')
         result = 2;
     else if (sign == '^')
         result = 3;
@@ -27,8 +27,10 @@ int calc_brain(stack_n *N, stack_s *S) {
     int errCode = 0;
 
     pull_sign(S, &oper);
-    if (N->count <= 0) {
-        errCode = 4;
+    if (N->count <= 0 || (N->count == 1 && (oper == '+'
+    || oper == '-' || oper == '*' || oper == '/' || oper == 'm'
+    || oper == '^'))) {
+        errCode = 3;
     } else {
         if (oper == '+') {
             if (S->count == 0 || (S->count > 0 && S->sign[S->count - 1] != '-'))
@@ -44,6 +46,8 @@ int calc_brain(stack_n *N, stack_s *S) {
             multiplier(N);
         else if (oper == '/')
             errCode = divisor(N);
+        else if (oper == 'm')
+            errCode = modder(N);
         else if (oper == '~')
             negativate(N);
         else if (oper == '^')

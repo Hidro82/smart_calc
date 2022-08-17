@@ -50,6 +50,23 @@ int divisor(stack_n *N) {
     return errCode;
 }
 
+int modder(stack_n *N) {
+    double num_1 = 0;
+    double num_2 = 0;
+    double result = 0;
+    int errCode = 0;
+
+    pull_number(N, &num_2);
+    pull_number(N, &num_1);
+    if (num_2 == 0)
+        errCode = 1;
+    else {
+        result = fmod(num_1, num_2);
+        push_number(N, &(result));
+    }
+    return errCode;
+}
+
 int power(stack_n *N) {
     double num_1 = 0;
     double num_2 = 0;
@@ -59,9 +76,9 @@ int power(stack_n *N) {
     pull_number(N, &num_2);
     pull_number(N, &num_1);
     if ((num_1 == 0) && (num_2 < 0))
-        errCode = 2;
+        errCode = 1;
     else if (num_1 < 0 && !floor(num_2))
-        errCode = 3;
+        errCode = 2;
     else {
         result = pow(num_1, num_2);
         push_number(N, &(result));
@@ -137,10 +154,10 @@ int square(stack_n *N) {
     int errCode = 0;
 
     pull_number(N, &num);
-    if (num >= 0)
-        result = sqrt(num);
+    if (num < 0)
+        errCode = 2;
     else
-        errCode = 7;
+        result = sqrt(num);
     push_number(N, &(result));
     return errCode;
 }
@@ -154,7 +171,7 @@ int log_nat(stack_n *N) {
     if (num > 0)
         result = log(num);
     else
-        errCode = 8;
+        errCode = 6;
     push_number(N, &(result));
     return errCode;
 }
@@ -168,7 +185,7 @@ int log_ten(stack_n *N) {
     if (num > 0)
         result = log10(num);
     else
-        errCode = 9;
+        errCode = 6;
     push_number(N, &(result));
     return errCode;
 }
