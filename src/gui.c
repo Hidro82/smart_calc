@@ -56,6 +56,8 @@ int main(int argc, char **argv) {
   GtkWidget *divide;
   GtkWidget *mod_button;
   GtkWidget *power_button;
+  GtkWidget *open_bracket;
+  GtkWidget *close_bracket;
 
   gtk_init(&argc, &argv);
   window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -134,6 +136,14 @@ int main(int argc, char **argv) {
   power_button = gtk_button_new_with_label("^");
   g_signal_connect(power_button, "clicked", G_CALLBACK(button_clicker), NULL);
   gtk_grid_attach(GTK_GRID(grid), power_button, 6, 2, 1, 1);
+
+  open_bracket = gtk_button_new_with_label("(");
+  g_signal_connect(open_bracket, "clicked", G_CALLBACK(button_clicker), NULL);
+  gtk_grid_attach(GTK_GRID(grid), open_bracket, 4, 3, 1, 1);
+
+  close_bracket = gtk_button_new_with_label(")");
+  g_signal_connect(close_bracket, "clicked", G_CALLBACK(button_clicker), NULL);
+  gtk_grid_attach(GTK_GRID(grid), close_bracket, 5, 3, 1, 1);
 
   gtk_widget_show_all(window);
   gtk_main();
