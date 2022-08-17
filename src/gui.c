@@ -34,6 +34,14 @@ void button_clicker(GtkButton *button, gpointer data)
     gtk_editable_insert_text(GTK_EDITABLE(entry_string), text, -1, &position);
 }
 
+void func_button_clicker(GtkButton *button, gpointer data)
+{
+    GtkEntry *entry = data;
+    const gchar *text = gtk_button_get_label(button);
+    gint position = -1;
+    gtk_editable_insert_text(GTK_EDITABLE(entry_string), text, -1, &position);
+}
+
 int main(int argc, char **argv) {
   GtkWidget *window;
   GtkWidget *grid;
@@ -49,6 +57,7 @@ int main(int argc, char **argv) {
   GtkWidget *eight;
   GtkWidget *nine;
   GtkWidget *zero;
+  GtkWidget *dot;
 
   GtkWidget *plus;
   GtkWidget *minus;
@@ -58,6 +67,17 @@ int main(int argc, char **argv) {
   GtkWidget *power_button;
   GtkWidget *open_bracket;
   GtkWidget *close_bracket;
+  GtkWidget *X_button;
+
+  GtkWidget *sin_button;
+  GtkWidget *cos_button;
+  GtkWidget *tan_button;
+  GtkWidget *asin_button;
+  GtkWidget *acos_button;
+  GtkWidget *atan_button;
+  GtkWidget *sqrt_button;
+  GtkWidget *log_button;
+  GtkWidget *log10_button;
 
   gtk_init(&argc, &argv);
   window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -67,7 +87,7 @@ int main(int argc, char **argv) {
   gtk_container_add(GTK_CONTAINER(window), grid);
 
   entry_string = gtk_entry_new();
-  gtk_grid_attach(GTK_GRID(grid), entry_string, 1, 0, 6, 1);
+  gtk_grid_attach(GTK_GRID(grid), entry_string, 1, 0, 9, 1);
 
   calculator = gtk_button_new_with_label("=");
   g_signal_connect(calculator, "clicked", G_CALLBACK(smart_calc), NULL);
@@ -113,6 +133,10 @@ int main(int argc, char **argv) {
   g_signal_connect(zero, "clicked", G_CALLBACK(button_clicker), NULL);
   gtk_grid_attach(GTK_GRID(grid), zero, 2, 4, 1, 1);
 
+  dot = gtk_button_new_with_label(".");
+  g_signal_connect(dot, "clicked", G_CALLBACK(button_clicker), NULL);
+  gtk_grid_attach(GTK_GRID(grid), dot, 3, 4, 1, 1);
+
   plus = gtk_button_new_with_label("+");
   g_signal_connect(plus, "clicked", G_CALLBACK(button_clicker), NULL);
   gtk_grid_attach(GTK_GRID(grid), plus, 4, 1, 1, 1);
@@ -144,6 +168,46 @@ int main(int argc, char **argv) {
   close_bracket = gtk_button_new_with_label(")");
   g_signal_connect(close_bracket, "clicked", G_CALLBACK(button_clicker), NULL);
   gtk_grid_attach(GTK_GRID(grid), close_bracket, 5, 3, 1, 1);
+
+  X_button = gtk_button_new_with_label("X");
+  g_signal_connect(X_button, "clicked", G_CALLBACK(button_clicker), NULL);
+  gtk_grid_attach(GTK_GRID(grid), X_button, 6, 3, 1, 1);
+
+  sin_button = gtk_button_new_with_label("sin");
+  g_signal_connect(sin_button, "clicked", G_CALLBACK(func_button_clicker), NULL);
+  gtk_grid_attach(GTK_GRID(grid), sin_button, 7, 1, 1, 1);
+
+  cos_button = gtk_button_new_with_label("cos");
+  g_signal_connect(cos_button, "clicked", G_CALLBACK(func_button_clicker), NULL);
+  gtk_grid_attach(GTK_GRID(grid), cos_button, 8, 1, 1, 1);
+
+  tan_button = gtk_button_new_with_label("tan");
+  g_signal_connect(tan_button, "clicked", G_CALLBACK(func_button_clicker), NULL);
+  gtk_grid_attach(GTK_GRID(grid), tan_button, 9, 1, 1, 1);
+
+  asin_button = gtk_button_new_with_label("asin");
+  g_signal_connect(asin_button, "clicked", G_CALLBACK(func_button_clicker), NULL);
+  gtk_grid_attach(GTK_GRID(grid), asin_button, 7, 2, 1, 1);
+
+  acos_button = gtk_button_new_with_label("acos");
+  g_signal_connect(acos_button, "clicked", G_CALLBACK(func_button_clicker), NULL);
+  gtk_grid_attach(GTK_GRID(grid), acos_button, 8, 2, 1, 1);
+
+  atan_button = gtk_button_new_with_label("atan");
+  g_signal_connect(atan_button, "clicked", G_CALLBACK(func_button_clicker), NULL);
+  gtk_grid_attach(GTK_GRID(grid), atan_button, 9, 2, 1, 1);
+
+  sqrt_button = gtk_button_new_with_label("sqrt");
+  g_signal_connect(sqrt_button, "clicked", G_CALLBACK(func_button_clicker), NULL);
+  gtk_grid_attach(GTK_GRID(grid), sqrt_button, 7, 3, 1, 1);
+
+  log_button = gtk_button_new_with_label("ln");
+  g_signal_connect(log_button, "clicked", G_CALLBACK(func_button_clicker), NULL);
+  gtk_grid_attach(GTK_GRID(grid), log_button, 8, 3, 1, 1);
+
+  log10_button = gtk_button_new_with_label("log");
+  g_signal_connect(log10_button, "clicked", G_CALLBACK(func_button_clicker), NULL);
+  gtk_grid_attach(GTK_GRID(grid), log10_button, 9, 3, 1, 1);
 
   gtk_widget_show_all(window);
   gtk_main();
