@@ -29,6 +29,7 @@ void push_number(stack_n *N, double *token);
 void push_sign(stack_s *S, char *token);
 void pull_number(stack_n *N, double *token);
 void pull_sign(stack_s *S, char *token);
+void clear_stacks(stack_n *N, stack_s *S)
 
 void summer(stack_n *N);
 void suber(stack_n *N);

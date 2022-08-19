@@ -1,5 +1,8 @@
 #include "calc.h"
 
+/* This is a series of math functions, that can work with
+    numbers in a stack */
+
 void summer(stack_n *N) {
     double num_1 = 0;
     double num_2 = 0;

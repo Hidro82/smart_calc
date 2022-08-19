@@ -1,9 +1,14 @@
 #include "calc.h"
 
+/* This Gargantua is the main function of this calculator
+    it reads the entry string, parses the numbers and
+    operators from it and, finally, calculates */
+
 int stacker(char *og, stack_n *N, stack_s *S, double x_var, double *result) {
     double number = 0;
     char buffer[256] = "";
     int i = 0;
+    int j = 0;
     int brace_opened = 0;
     int errCode = 0;
     char oper;
@@ -81,6 +86,7 @@ int stacker(char *og, stack_n *N, stack_s *S, double x_var, double *result) {
         }
         backup = *og;
         og++;
+        j++;
     }
     if (S->count > 0)
         while(S->count > 0 && !errCode)
@@ -88,5 +94,7 @@ int stacker(char *og, stack_n *N, stack_s *S, double x_var, double *result) {
     if (brace_opened > 0)
         errCode = 5;
     *result = N->num[0];
+    clear_stacks(N, S);
+    og -= j;
     return errCode;
 }

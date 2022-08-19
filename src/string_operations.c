@@ -1,6 +1,14 @@
 #include "calc.h"
 
+/* This functions are doing calculation operations
+    with stacks */
+
 int operand_priority(char sign) {
+    /* This function decides the priority of the current
+        operator. In the main function if the pointer sees, that
+        the current operator is less valuable than the last one - it
+        starts counting, until the priority of the last operator in
+        stack is equal or less than a current */
     int result = 9000;
 
     if (sign == '(')
@@ -23,6 +31,9 @@ int operand_priority(char sign) {
 }
 
 int calc_brain(stack_n *N, stack_s *S) {
+    /* This masterpiece of Indian code calculates the last
+        one or two numbers in number stack, depending on the last
+        operator in operator stack */
     char oper = '\0';
     int errCode = 0;
 

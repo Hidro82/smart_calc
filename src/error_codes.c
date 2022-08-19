@@ -1,5 +1,8 @@
 #include "calc.h"
 
+/* It's a single function that returns an error message
+    due to the code of an error */
+
 char *error_codes(int errCode) {
     char *error;
 
@@ -17,5 +20,7 @@ char *error_codes(int errCode) {
         error = "Logarithm incorrect argument!";
     else if (errCode == 7)
         error = "Too many characters!";
+    else if (errCode == 8)
+        error = "Bad canvas!";
     return error;
 }

@@ -50,7 +50,9 @@ void smart_calc(GtkWidget *calculator, gpointer data) {
     errCode = stacker(og, &N, &S, 0.0, &result);
   gcvt(result, 6, buffer);
   gtk_entry_set_text(GTK_ENTRY(entry_string), "");
-  if (!errCode) {
+  if (!errCode && X_here) {
+    gtk_editable_insert_text((GtkEditable *)GTK_ENTRY(entry_string), "Look at the canvas!", -1, &position);
+  } else if (!errCode) {
     gtk_editable_insert_text((GtkEditable *)GTK_ENTRY(entry_string), buffer, -1, &position);
   } else {
     gtk_editable_insert_text((GtkEditable *)GTK_ENTRY(entry_string), error_codes(errCode), -1, &position);
