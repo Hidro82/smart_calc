@@ -1,8 +1,33 @@
 #include "calc.h"
 
 static GtkWidget *entry_string;
+static GtkWidget *canvas;
 static GtkWidget *x_1;
 static GtkWidget *x_2;
+
+int drawing(char *og, stack_n *N, stack_s *S) {
+  double x_start = atof(gtk_entry_get_text(GTK_ENTRY(x_1)));
+  double x_end = atof(gtk_entry_get_text(GTK_ENTRY(x_2)));
+  double x = x_start;
+  double y = 0;
+
+  if (x_1 > x_2)
+    errCode = 8;
+  while ((x <= x_end) && !errCode) {
+    errCode = stacker(og, &N, &S, x, &y);
+    if ((x == x_start) && !errCode) {
+      cairo_move_to(canvas, x, y);
+    } else if (!errCode) {
+      cairo_line_to(canvas, x, y);
+    }
+    if ((errCode == 1) || (errCode == 2) || (errCode == 6)) {
+      errCode = 0;
+    }
+    x += (x / 1000);
+    x_start = x;
+  }
+  return errCode;
+}
 
 void smart_calc(GtkWidget *calculator, gpointer data) {
   stack_n N;
@@ -14,9 +39,6 @@ void smart_calc(GtkWidget *calculator, gpointer data) {
   int X_here = 0;
   int i = 0;
   double result = 0;
-  double x_start = atof(gtk_entry_get_text(GTK_ENTRY(x_1)));
-  double x_end = atof(gtk_entry_get_text(GTK_ENTRY(x_2)));
-  double x = x_start;
   char buffer[256];
   char *og = (char *)gtk_entry_get_text(GTK_ENTRY(entry_string));
 
@@ -31,24 +53,11 @@ void smart_calc(GtkWidget *calculator, gpointer data) {
   if (strlen(og) > 256)
     errCode = 7;
   else if (X_here) {
-    if (x_1 > x_2)
-      errCode = 8;
-    while ((x <= x_end) && !errCode) {
-      errCode = stacker(og, &N, &S, x, &result);
-      if ((x == x_start) && !errCode) {
-        cairo_move_to(canvas, x, result);
-      } else if (!errCode) {
-        cairo_line_to(canvas, x, result);
-      }
-      if ((errCode == 1) || (errCode == 2) || (errCode == 6)) {
-        errCode = 0;
-      }
-      x += (x / 1000);
-      x_start = x;
-    }
-  } else
+    errCode = drawing(og, N, S);
+  } else {
     errCode = stacker(og, &N, &S, 0.0, &result);
-  gcvt(result, 6, buffer);
+    gcvt(result, 6, buffer);
+  }
   gtk_entry_set_text(GTK_ENTRY(entry_string), "");
   if (!errCode && X_here) {
     gtk_editable_insert_text((GtkEditable *)GTK_ENTRY(entry_string), "Look at the canvas!", -1, &position);
