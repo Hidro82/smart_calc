@@ -38,10 +38,70 @@ void func_button_clicker(GtkButton *button, gpointer data) {
   const gchar *text = gtk_button_get_label(button);
   gint position = -1;
   gtk_editable_insert_text(GTK_EDITABLE(entry_string), text, -1, &position);
+  position++;
+  gtk_editable_insert_text(GTK_EDITABLE(entry_string), "(", -1, &position);
 }
 
 void clear_button_clicker(GtkButton *button, gpointer data) {
   gtk_entry_set_text(GTK_ENTRY(entry_string), "");
+}
+
+void math_module(GtkButton *button, gpointer data) {
+  GtkWidget *window;
+  GtkWidget *grid;
+
+  GtkWidget *sin_button;
+  GtkWidget *cos_button;
+  GtkWidget *tan_button;
+  GtkWidget *asin_button;
+  GtkWidget *acos_button;
+  GtkWidget *atan_button;
+  GtkWidget *sqrt_button;
+  GtkWidget *log_button;
+  GtkWidget *log10_button;
+
+  window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+
+  grid = gtk_grid_new();
+  gtk_container_add(GTK_CONTAINER(window), grid);
+
+    sin_button = gtk_button_new_with_label("sin");
+  g_signal_connect(sin_button, "clicked", G_CALLBACK(func_button_clicker), NULL);
+  gtk_grid_attach(GTK_GRID(grid), sin_button, 7, 1, 1, 1);
+
+  cos_button = gtk_button_new_with_label("cos");
+  g_signal_connect(cos_button, "clicked", G_CALLBACK(func_button_clicker), NULL);
+  gtk_grid_attach(GTK_GRID(grid), cos_button, 8, 1, 1, 1);
+
+  tan_button = gtk_button_new_with_label("tan");
+  g_signal_connect(tan_button, "clicked", G_CALLBACK(func_button_clicker), NULL);
+  gtk_grid_attach(GTK_GRID(grid), tan_button, 9, 1, 1, 1);
+
+  asin_button = gtk_button_new_with_label("asin");
+  g_signal_connect(asin_button, "clicked", G_CALLBACK(func_button_clicker), NULL);
+  gtk_grid_attach(GTK_GRID(grid), asin_button, 7, 2, 1, 1);
+
+  acos_button = gtk_button_new_with_label("acos");
+  g_signal_connect(acos_button, "clicked", G_CALLBACK(func_button_clicker), NULL);
+  gtk_grid_attach(GTK_GRID(grid), acos_button, 8, 2, 1, 1);
+
+  atan_button = gtk_button_new_with_label("atan");
+  g_signal_connect(atan_button, "clicked", G_CALLBACK(func_button_clicker), NULL);
+  gtk_grid_attach(GTK_GRID(grid), atan_button, 9, 2, 1, 1);
+
+  sqrt_button = gtk_button_new_with_label("sqrt");
+  g_signal_connect(sqrt_button, "clicked", G_CALLBACK(func_button_clicker), NULL);
+  gtk_grid_attach(GTK_GRID(grid), sqrt_button, 7, 3, 1, 1);
+
+  log_button = gtk_button_new_with_label("ln");
+  g_signal_connect(log_button, "clicked", G_CALLBACK(func_button_clicker), NULL);
+  gtk_grid_attach(GTK_GRID(grid), log_button, 8, 3, 1, 1);
+
+  log10_button = gtk_button_new_with_label("log");
+  g_signal_connect(log10_button, "clicked", G_CALLBACK(func_button_clicker), NULL);
+  gtk_grid_attach(GTK_GRID(grid), log10_button, 9, 3, 1, 1);
+
+  gtk_widget_show_all(window);
 }
 
 int main(int argc, char **argv) {
@@ -72,15 +132,7 @@ int main(int argc, char **argv) {
   GtkWidget *X_button;
   GtkWidget *clear_button;
 
-  GtkWidget *sin_button;
-  GtkWidget *cos_button;
-  GtkWidget *tan_button;
-  GtkWidget *asin_button;
-  GtkWidget *acos_button;
-  GtkWidget *atan_button;
-  GtkWidget *sqrt_button;
-  GtkWidget *log_button;
-  GtkWidget *log10_button;
+  GtkWidget *math_mod;
 
   gtk_init(&argc, &argv);
   window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -90,7 +142,7 @@ int main(int argc, char **argv) {
   gtk_container_add(GTK_CONTAINER(window), grid);
 
   entry_string = gtk_entry_new();
-  gtk_grid_attach(GTK_GRID(grid), entry_string, 1, 0, 9, 1);
+  gtk_grid_attach(GTK_GRID(grid), entry_string, 1, 0, 6, 1);
 
   calculator = gtk_button_new_with_label("=");
   g_signal_connect(calculator, "clicked", G_CALLBACK(smart_calc), NULL);
@@ -142,79 +194,47 @@ int main(int argc, char **argv) {
 
   plus = gtk_button_new_with_label("+");
   g_signal_connect(plus, "clicked", G_CALLBACK(button_clicker), NULL);
-  gtk_grid_attach(GTK_GRID(grid), plus, 4, 1, 1, 1);
+  gtk_grid_attach(GTK_GRID(grid), plus, 4, 2, 1, 1);
 
   minus = gtk_button_new_with_label("-");
   g_signal_connect(minus, "clicked", G_CALLBACK(button_clicker), NULL);
-  gtk_grid_attach(GTK_GRID(grid), minus, 5, 1, 1, 1);
+  gtk_grid_attach(GTK_GRID(grid), minus, 5, 2, 1, 1);
 
   mult = gtk_button_new_with_label("*");
   g_signal_connect(mult, "clicked", G_CALLBACK(button_clicker), NULL);
-  gtk_grid_attach(GTK_GRID(grid), mult, 6, 1, 1, 1);
+  gtk_grid_attach(GTK_GRID(grid), mult, 6, 2, 1, 1);
 
   divide = gtk_button_new_with_label("/");
   g_signal_connect(divide, "clicked", G_CALLBACK(button_clicker), NULL);
-  gtk_grid_attach(GTK_GRID(grid), divide, 4, 2, 1, 1);
+  gtk_grid_attach(GTK_GRID(grid), divide, 4, 3, 1, 1);
 
   mod_button = gtk_button_new_with_label("mod");
   g_signal_connect(mod_button, "clicked", G_CALLBACK(button_clicker), NULL);
-  gtk_grid_attach(GTK_GRID(grid), mod_button, 5, 2, 1, 1);
+  gtk_grid_attach(GTK_GRID(grid), mod_button, 5, 3, 1, 1);
 
   power_button = gtk_button_new_with_label("^");
   g_signal_connect(power_button, "clicked", G_CALLBACK(button_clicker), NULL);
-  gtk_grid_attach(GTK_GRID(grid), power_button, 6, 2, 1, 1);
+  gtk_grid_attach(GTK_GRID(grid), power_button, 6, 3, 1, 1);
 
   open_bracket = gtk_button_new_with_label("(");
   g_signal_connect(open_bracket, "clicked", G_CALLBACK(button_clicker), NULL);
-  gtk_grid_attach(GTK_GRID(grid), open_bracket, 4, 3, 1, 1);
+  gtk_grid_attach(GTK_GRID(grid), open_bracket, 4, 4, 1, 1);
 
   close_bracket = gtk_button_new_with_label(")");
   g_signal_connect(close_bracket, "clicked", G_CALLBACK(button_clicker), NULL);
-  gtk_grid_attach(GTK_GRID(grid), close_bracket, 5, 3, 1, 1);
+  gtk_grid_attach(GTK_GRID(grid), close_bracket, 5, 4, 1, 1);
 
   X_button = gtk_button_new_with_label("X");
   g_signal_connect(X_button, "clicked", G_CALLBACK(button_clicker), NULL);
-  gtk_grid_attach(GTK_GRID(grid), X_button, 6, 3, 1, 1);
+  gtk_grid_attach(GTK_GRID(grid), X_button, 6, 4, 1, 1);
 
   clear_button = gtk_button_new_with_label("AC");
   g_signal_connect(clear_button, "clicked", G_CALLBACK(clear_button_clicker), NULL);
-  gtk_grid_attach(GTK_GRID(grid), clear_button, 4, 4, 1, 1);
+  gtk_grid_attach(GTK_GRID(grid), clear_button, 4, 1, 1, 1);
 
-  sin_button = gtk_button_new_with_label("sin");
-  g_signal_connect(sin_button, "clicked", G_CALLBACK(func_button_clicker), NULL);
-  gtk_grid_attach(GTK_GRID(grid), sin_button, 7, 1, 1, 1);
-
-  cos_button = gtk_button_new_with_label("cos");
-  g_signal_connect(cos_button, "clicked", G_CALLBACK(func_button_clicker), NULL);
-  gtk_grid_attach(GTK_GRID(grid), cos_button, 8, 1, 1, 1);
-
-  tan_button = gtk_button_new_with_label("tan");
-  g_signal_connect(tan_button, "clicked", G_CALLBACK(func_button_clicker), NULL);
-  gtk_grid_attach(GTK_GRID(grid), tan_button, 9, 1, 1, 1);
-
-  asin_button = gtk_button_new_with_label("asin");
-  g_signal_connect(asin_button, "clicked", G_CALLBACK(func_button_clicker), NULL);
-  gtk_grid_attach(GTK_GRID(grid), asin_button, 7, 2, 1, 1);
-
-  acos_button = gtk_button_new_with_label("acos");
-  g_signal_connect(acos_button, "clicked", G_CALLBACK(func_button_clicker), NULL);
-  gtk_grid_attach(GTK_GRID(grid), acos_button, 8, 2, 1, 1);
-
-  atan_button = gtk_button_new_with_label("atan");
-  g_signal_connect(atan_button, "clicked", G_CALLBACK(func_button_clicker), NULL);
-  gtk_grid_attach(GTK_GRID(grid), atan_button, 9, 2, 1, 1);
-
-  sqrt_button = gtk_button_new_with_label("sqrt");
-  g_signal_connect(sqrt_button, "clicked", G_CALLBACK(func_button_clicker), NULL);
-  gtk_grid_attach(GTK_GRID(grid), sqrt_button, 7, 3, 1, 1);
-
-  log_button = gtk_button_new_with_label("ln");
-  g_signal_connect(log_button, "clicked", G_CALLBACK(func_button_clicker), NULL);
-  gtk_grid_attach(GTK_GRID(grid), log_button, 8, 3, 1, 1);
-
-  log10_button = gtk_button_new_with_label("log");
-  g_signal_connect(log10_button, "clicked", G_CALLBACK(func_button_clicker), NULL);
-  gtk_grid_attach(GTK_GRID(grid), log10_button, 9, 3, 1, 1);
+  math_mod = gtk_button_new_with_label("math");
+  g_signal_connect(math_mod, "clicked", G_CALLBACK(math_module), NULL);
+  gtk_grid_attach(GTK_GRID(grid), math_mod, 5, 1, 1, 1);
 
   gtk_widget_show_all(window);
   gtk_main();
