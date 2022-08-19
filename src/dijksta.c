@@ -1,6 +1,6 @@
 #include "calc.h"
 
-int stacker(char *og, stack_n *N, stack_s *S, double *result) {
+int stacker(char *og, stack_n *N, stack_s *S, double x_var, double *result) {
     double number = 0;
     char buffer[256] = "";
     int i = 0;
@@ -56,6 +56,8 @@ int stacker(char *og, stack_n *N, stack_s *S, double *result) {
                     push_sign(S, "c");
                 else if (backup == 't' && *og == 'a')
                     push_sign(S, "t");
+                else if (*og == 'X')
+                    push_number(N, &x_var);
                 else if (*og == '+' || *og == '-' || *og == '*'
                 || *og == '/' || *og == '^' || *og == 'm'
                 || *og == '(' || *og == ')') {

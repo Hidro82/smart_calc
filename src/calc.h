@@ -4,8 +4,10 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
-#include <gtk/gtk.h>
 #include <string.h>
+
+#include <gtk/gtk.h>
+#include <cairo.h>
 
 typedef struct number_stack {
     double num[256];
@@ -21,7 +23,7 @@ typedef struct sign_stack {
 int operand_priority(char sign);
 int calc_brain(stack_n *N, stack_s *S);
 
-int stacker(char *og, stack_n *N, stack_s *S, double *result);
+int stacker(char *og, stack_n *N, stack_s *S, double x_var, double *result);
 
 void push_number(stack_n *N, double *token);
 void push_sign(stack_s *S, char *token);
