@@ -89,45 +89,29 @@ void clear_button_clicker(GtkButton *button, gpointer data) {
 }
 
 gboolean drawer(GtkWidget *widget, cairo_t *brush, gpointer data) {
-  GdkRectangle inside;
-  gdouble dx = 5.0, dy = 5.0;
-  gdouble i, clip_x1 = 0.0, clip_y1 = 0.0, clip_x2 = 0.0, clip_y2 = 0.0;
+  gdouble clip_x1 = 0, clip_y1 = 0, clip_x2 = 300, clip_y2 = 300;
 
-  inside.x = 0;
-  inside.y= 0;
-  inside.width = 500;
-  inside.height = 500;
-
-  cairo_translate (brush, inside.width / 2, inside.height / 2);
-  cairo_scale (brush, 500, -500);
-
-  cairo_device_to_user_distance (brush, &dx, &dy);
-  cairo_clip_extents (brush, &clip_x1, &clip_y1, &clip_x2, &clip_y2);
-  cairo_set_line_width (brush, dx);
-
-  cairo_set_source_rgb (brush, 0.0, 1.0, 0.0);
-  cairo_move_to (brush, clip_x1, 0.0);
-  cairo_line_to (brush, clip_x2, 0.0);
-  cairo_move_to (brush, 0.0, clip_y1);
-  cairo_line_to (brush, 0.0, clip_y2);
+  cairo_set_source_rgb (brush, 1.0, 0.0, 0.0);
+  cairo_move_to (brush, clip_x1, 150);
+  cairo_line_to (brush, clip_x2, 150);
+  cairo_move_to (brush, 150, clip_y1);
+  cairo_line_to (brush, 150, clip_y2);
   cairo_stroke (brush);
 
   return FALSE;
 }
 
-void graph_module(GtkButton *button, cairo_t *brush, gpointer data) {
+void graph_module(GtkButton *button, gpointer data) {
   GtkWidget *window;
-  GtkWidget *grid;
 
   window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_default_size (GTK_WINDOW (window), 500, 500);
+  gtk_window_set_default_size (GTK_WINDOW (window), 300, 300);
   gtk_window_set_title (GTK_WINDOW (window), "Graph drawing");
 
-  grid = gtk_grid_new();
-  gtk_container_add(GTK_CONTAINER(window), grid);
-
   canvas = gtk_drawing_area_new();
-  gtk_grid_attach(GTK_GRID(grid), canvas, 0, 0, 4, 4);
+  gtk_container_add(GTK_CONTAINER(window), canvas);
+  gtk_widget_add_events(canvas, GDK_BUTTON_PRESS_MASK);
+  gtk_widget_set_size_request(canvas, 300, 300);
   g_signal_connect(canvas, "draw", G_CALLBACK(drawer), NULL);
 
   // x_1 = gtk_entry_new();
