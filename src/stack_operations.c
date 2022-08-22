@@ -38,8 +38,8 @@ void clear_stacks(stack_n *N, stack_s *S) {
         N->num[N->count] = 0;
         N->count--;
     }
-    S->sign = "";
     while (S->count >= 0) {
+        S->sign[S->count] = '\0';
         S->count--;
     }
 }

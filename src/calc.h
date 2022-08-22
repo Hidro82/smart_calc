@@ -29,7 +29,7 @@ void push_number(stack_n *N, double *token);
 void push_sign(stack_s *S, char *token);
 void pull_number(stack_n *N, double *token);
 void pull_sign(stack_s *S, char *token);
-void clear_stacks(stack_n *N, stack_s *S)
+void clear_stacks(stack_n *N, stack_s *S);
 
 void summer(stack_n *N);
 void suber(stack_n *N);
@@ -37,7 +37,6 @@ void multiplier(stack_n *N);
 int divisor(stack_n *N);
 int modder(stack_n *N);
 int power(stack_n *N);
-void negativate(stack_n *N);
 void negativate(stack_n *N);
 void sinus(stack_n *N);
 void cosinus(stack_n *N);
