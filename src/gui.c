@@ -30,7 +30,9 @@ gboolean smart_graph(GtkWidget *widget, cairo_t *brush, gpointer data) {
   cairo_line_to (brush, clip_x2, y_zero);
   cairo_move_to (brush, x_zero, clip_y1);
   cairo_line_to (brush, x_zero, clip_y2);
+  cairo_stroke(brush);
 
+  cairo_set_source_rgb (brush, 0.0, 0.0, 1.0);
   og = strcat(og, "=");
   if (x_1 > x_2)
     errCode = 8;
@@ -257,7 +259,6 @@ int main(int argc, char **argv) {
   GtkWidget *clear_button;
 
   GtkWidget *math_mod;
-  // GtkWidget *graph_mod;
 
   gtk_init(&argc, &argv);
   window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -360,10 +361,6 @@ int main(int argc, char **argv) {
   math_mod = gtk_button_new_with_label("math");
   g_signal_connect(math_mod, "clicked", G_CALLBACK(math_module), NULL);
   gtk_grid_attach(GTK_GRID(grid), math_mod, 5, 1, 1, 1);
-
-  // graph_mod = gtk_button_new_with_label("graph");
-  // g_signal_connect(graph_mod, "clicked", G_CALLBACK(graph_module), NULL);
-  // gtk_grid_attach(GTK_GRID(grid), graph_mod, 6, 1, 1, 1);
 
   gtk_widget_show_all(window);
   gtk_main();
