@@ -23,6 +23,7 @@ int stacker(char *og, stack_n *N, stack_s *S, double x_var, double *result) {
             printf("number: %f\n", N->num[N->count - 1]);
         } else { 
             if (i) {
+                errCode = num_checker(buffer);
                 number = atof(buffer);
                 push_number(N, &number);
                 printf("number: %f\n", number);

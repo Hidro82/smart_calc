@@ -16,6 +16,7 @@ gboolean smart_graph(GtkWidget *widget, cairo_t *brush, gpointer data) {
   double x_start = atof((char *)gtk_entry_get_text(GTK_ENTRY(x_1)));
   double x_end = atof((char *)gtk_entry_get_text(GTK_ENTRY(x_2)));
   double x_scale = 300 / (fabs(x_start) + fabs(x_end));
+  double x_step = (fabs(x_start) + fabs(x_end)) / 600;
   double x_zero = fabs(x_start) * x_scale;
   double y_start = atof((char *)gtk_entry_get_text(GTK_ENTRY(y_1)));
   double y_end = atof((char *)gtk_entry_get_text(GTK_ENTRY(y_2)));
@@ -47,7 +48,7 @@ gboolean smart_graph(GtkWidget *widget, cairo_t *brush, gpointer data) {
       errCode = 0;
       x_start = x;
     }
-    x += 0.01;
+    x += x_step;
   }
   cairo_stroke(brush);
   return FALSE;

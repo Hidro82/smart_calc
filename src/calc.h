@@ -49,5 +49,6 @@ int log_nat(stack_n *N);
 int log_ten(stack_n *N);
 
 char *error_codes(int errCode);
+int num_checker(char *buffer);
 
 #endif // SRC_CALC_H_
