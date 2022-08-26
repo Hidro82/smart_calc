@@ -34,11 +34,11 @@ void pull_sign(stack_s *S, char *token) {
 }
 
 void clear_stacks(stack_n *N, stack_s *S) {
-    while (N->count >= 0) {
+    while (N->count > 0) {
         N->num[N->count] = 0;
         N->count--;
     }
-    while (S->count >= 0) {
+    while (S->count > 0) {
         S->sign[S->count] = '\0';
         S->count--;
     }

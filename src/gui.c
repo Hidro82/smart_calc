@@ -1,33 +1,47 @@
 #include "calc.h"
 
 static GtkWidget *entry_string;
-static GtkWidget *canvas;
 static GtkWidget *x_1;
 static GtkWidget *x_2;
 
-// int drawing(char *og, stack_n *N, stack_s *S) {
-//   double x_start = atof(gtk_entry_get_text(GTK_ENTRY(x_1)));
-//   double x_end = atof(gtk_entry_get_text(GTK_ENTRY(x_2)));
-//   double x = x_start;
-//   double y = 0;
+gboolean smart_graph(GtkWidget *widget, cairo_t *brush, gpointer data) {
+  stack_n N;
+  stack_s S;
+  N.count = 0;
+  S.count = 0;
+  int errCode = 0;
+  char *og = (char *)gtk_entry_get_text(GTK_ENTRY(entry_string));
+  double x_start = -150;
+  double x_end = 150;
+  double x = x_start;
+  double y = 0;
+  gdouble clip_x1 = 0, clip_y1 = 0, clip_x2 = 300, clip_y2 = 300;
 
-//   if (x_1 > x_2)
-//     errCode = 8;
-//   while ((x <= x_end) && !errCode) {
-//     errCode = stacker(og, &N, &S, x, &y);
-//     if ((x == x_start) && !errCode) {
-//       cairo_move_to(canvas, x, y);
-//     } else if (!errCode) {
-//       cairo_line_to(canvas, x, y);
-//     }
-//     if ((errCode == 1) || (errCode == 2) || (errCode == 6)) {
-//       errCode = 0;
-//     }
-//     x += (x / 1000);
-//     x_start = x;
-//   }
-//   return errCode;
-// }
+  cairo_set_source_rgb (brush, 1.0, 0.0, 0.0);
+  cairo_move_to (brush, clip_x1, 150);
+  cairo_line_to (brush, clip_x2, 150);
+  cairo_move_to (brush, 150, clip_y1);
+  cairo_line_to (brush, 150, clip_y2);
+
+  og = strcat(og, "=");
+  if (x_1 > x_2)
+    errCode = 8;
+  while ((x <= x_end)) {
+    errCode = stacker(og, &N, &S, x, &y);
+    if ((x == x_start) && !errCode) {
+      cairo_move_to(brush, x + 150, 150 - y);
+    } else if (!errCode) {
+      cairo_line_to(brush, x + 150, 150 - y);
+    }
+    if ((errCode == 1) || (errCode == 2) || (errCode == 6)) {
+      errCode = 0;
+      x_start = x;
+    }
+    x += 0.1;
+  }
+  cairo_stroke(brush);
+  return FALSE;
+}
 
 void smart_calc(GtkWidget *calculator, gpointer data) {
   stack_n N;
@@ -52,8 +66,6 @@ void smart_calc(GtkWidget *calculator, gpointer data) {
   og -= i;
   if (strlen(og) > 256) {
     errCode = 7;
-  // else if (X_here) {
-  //   errCode = drawing(og, &N, &S);
   } else {
     errCode = stacker(og, &N, &S, 0.0, &result);
     gcvt(result, 6, buffer);
@@ -88,21 +100,9 @@ void clear_button_clicker(GtkButton *button, gpointer data) {
   gtk_entry_set_text(GTK_ENTRY(entry_string), "");
 }
 
-gboolean drawer(GtkWidget *widget, cairo_t *brush, gpointer data) {
-  gdouble clip_x1 = 0, clip_y1 = 0, clip_x2 = 300, clip_y2 = 300;
-
-  cairo_set_source_rgb (brush, 1.0, 0.0, 0.0);
-  cairo_move_to (brush, clip_x1, 150);
-  cairo_line_to (brush, clip_x2, 150);
-  cairo_move_to (brush, 150, clip_y1);
-  cairo_line_to (brush, 150, clip_y2);
-  cairo_stroke (brush);
-
-  return FALSE;
-}
-
 void graph_module(GtkButton *button, gpointer data) {
   GtkWidget *window;
+  GtkWidget *canvas;
 
   window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_default_size (GTK_WINDOW (window), 300, 300);
@@ -112,7 +112,7 @@ void graph_module(GtkButton *button, gpointer data) {
   gtk_container_add(GTK_CONTAINER(window), canvas);
   gtk_widget_add_events(canvas, GDK_BUTTON_PRESS_MASK);
   gtk_widget_set_size_request(canvas, 300, 300);
-  g_signal_connect(canvas, "draw", G_CALLBACK(drawer), NULL);
+  g_signal_connect(canvas, "draw", G_CALLBACK(smart_graph), NULL);
 
   // x_1 = gtk_entry_new();
   // gtk_grid_attach(GTK_GRID(grid), x_1, 0, 4, 2, 1);

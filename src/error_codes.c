@@ -22,5 +22,7 @@ char *error_codes(int errCode) {
         error = "Too many characters!";
     else if (errCode == 8)
         error = "Bad canvas!";
+    else if (errCode == 9)
+        error = "Use the graph!";
     return error;
 }

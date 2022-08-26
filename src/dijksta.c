@@ -18,6 +18,9 @@ int stacker(char *og, stack_n *N, stack_s *S, double x_var, double *result) {
         if ((*og >= '0' && *og <= '9') || *og == '.') {
             buffer[i] = *og;
             i++;
+        } else if (*og == 'X') {
+            push_number(N, &x_var);
+            printf("number: %f\n", N->num[N->count - 1]);
         } else { 
             if (i) {
                 number = atof(buffer);
@@ -61,8 +64,6 @@ int stacker(char *og, stack_n *N, stack_s *S, double x_var, double *result) {
                     push_sign(S, "c");
                 else if (backup == 't' && *og == 'a')
                     push_sign(S, "t");
-                else if (*og == 'X')
-                    push_number(N, &x_var);
                 else if (*og == '+' || *og == '-' || *og == '*'
                 || *og == '/' || *og == '^' || *og == 'm'
                 || *og == '(' || *og == ')') {
@@ -94,7 +95,11 @@ int stacker(char *og, stack_n *N, stack_s *S, double x_var, double *result) {
     if (brace_opened > 0)
         errCode = 5;
     *result = N->num[0];
+    printf("X = %f\n", x_var);
+    printf("result: %f\n", *result);
+    printf("errCode : %d\n", errCode);
     clear_stacks(N, S);
-    og -= j;
+    og = og - j - 1;
+    printf("string: %s\n", og);
     return errCode;
 }
