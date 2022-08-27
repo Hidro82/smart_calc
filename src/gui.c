@@ -37,7 +37,7 @@ gboolean smart_graph(GtkWidget *widget, cairo_t *brush, gpointer data) {
   og = strcat(og, "=");
   if (x_1 > x_2)
     errCode = 8;
-  while ((x <= x_end)) {
+  while ((x <= x_end) && !errCode) {
     errCode = stacker(og, &N, &S, x, &y);
     if ((x == x_start) && !errCode) {
       cairo_move_to(brush, (x * x_scale) + x_zero, y_zero - (y * y_scale));

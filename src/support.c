@@ -5,8 +5,12 @@ int num_checker(char *buffer) {
     int dot = 0;
     int i = 0;
 
+    if (*buffer = '-' || *buffer == '+') {
+        buffer++;
+        i++;
+    }
     while (*buffer && !errCode) {
-        if (((*buffer < '0') || (*buffer > '9')) && (*buffer != '.') || (dot > 1))
+        if ((((*buffer < '0') || (*buffer > '9')) && (*buffer != '.')) || (dot > 1))
             errCode = 8;
         if (*buffer == '.')
             dot++;
@@ -14,5 +18,7 @@ int num_checker(char *buffer) {
         buffer++;
     }
     buffer -= i;
+    if (i == 0)
+        errCode = 8;
     return errCode;
 }
