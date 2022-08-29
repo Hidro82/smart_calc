@@ -36,47 +36,56 @@ typedef struct credit_output {
 
 typedef struct deposit_input {
     double cash;
-    int time;
-    /* time_flag == 0 => years
-        time_flag == 1 => months
-        time_flag == 2 => days */
-    int time_flag;
-    int date;
-    int month;
-    int year;
+    unsigned int time;
+    /* time_flag:
+        0 - years
+        1 - months
+        2 - days */
+    unsigned int time_flag;
+    unsigned int date;
+    unsigned int month;
+    unsigned int year;
     double percent;
     double tax_per;
-    /* 0 - every day
-        1 - every week
-        2 - every month
-        3 - every quater
+    /* period:
+        0 - dayly
+        1 - weekly
+        2 - monthly
+        3 - quaterly
         4 - twice a year
         5 - once a year
-        6 - at the end */
-    int period;
-    int capitalize;
-
+        6 - in the end */
+    unsigned int period;
+    unsigned int capitalize;
 } dep_in;
 
+typedef calender {
+    unsigned int date;
+    unsigned int month;
+    unsigned int year;
+} tdy;
+
 typedef deposit_raise {
-    double cash;
-    int date;
-    int month;
-    int year;
+    int count;
+    double *cash;
+    unsigned int *date;
+    unsigned int *month;
+    unsigned int *year;
 } dep_r;
 
 typedef deposit_withdrawal {
-    double cash;
-    int date;
-    int month;
-    int year;
+    int count;
+    double *cash;
+    unsigned int *date;
+    unsigned int *month;
+    unsigned int *year;
 } dep_w;
 
 typedef deposit_output {
     double percent;
     double tax;
     double leftover;
-}
+} dep_out;
 
 int operand_priority(char sign);
 int calc_brain(stack_n *N, stack_s *S);
