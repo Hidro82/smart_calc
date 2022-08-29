@@ -20,6 +20,64 @@ typedef struct sign_stack {
     int count;
 } stack_s;
 
+typedef struct credit_input {
+    double cash;
+    int time;
+    int month;
+    double percent;
+    int differ;
+} cred_in;
+
+typedef struct credit_output {
+    double monthly[2];
+    double over;
+    double whole;
+} cred_out;
+
+typedef struct deposit_input {
+    double cash;
+    int time;
+    /* time_flag == 0 => years
+        time_flag == 1 => months
+        time_flag == 2 => days */
+    int time_flag;
+    int date;
+    int month;
+    int year;
+    double percent;
+    double tax_per;
+    /* 0 - every day
+        1 - every week
+        2 - every month
+        3 - every quater
+        4 - twice a year
+        5 - once a year
+        6 - at the end */
+    int period;
+    int capitalize;
+
+} dep_in;
+
+typedef deposit_raise {
+    double cash;
+    int date;
+    int month;
+    int year;
+} dep_r;
+
+typedef deposit_withdrawal {
+    double cash;
+    int date;
+    int month;
+    int year;
+} dep_w;
+
+typedef deposit_output {
+    double percent;
+    double tax;
+    double leftover;
+}
+
 int operand_priority(char sign);
 int calc_brain(stack_n *N, stack_s *S);
 
@@ -50,5 +108,9 @@ int log_ten(stack_n *N);
 
 char *error_codes(int errCode);
 int num_checker(char *buffer);
+
+int credit_calculus(cred_in *I, cred_out *O);
+void differential(cred_in *I, cred_out *O);
+void annuite(cred_in *I, cred_out *O);
 
 #endif // SRC_CALC_H_
