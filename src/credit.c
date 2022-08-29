@@ -48,7 +48,7 @@ void annuite(cred_in *I, cred_out *O) {
         pay_count = I->time;
     else
         pay_count = I->time * 12;
-    O->montly = I->cash * I->percent / 1200
+    O->montly[0] = I->cash * I->percent / 1200
     * pow((1 + (I->percent)/1200), pay_count)
     / (pow((1 + (I->percent)/1200), pay_count) - 1);
     O->whole = O->monthly * pay_count;
