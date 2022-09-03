@@ -59,13 +59,13 @@ typedef struct deposit_input {
     unsigned int capitalize;
 } dep_in;
 
-typedef calender {
+typedef struct calender {
     unsigned int date;
     unsigned int month;
     unsigned int year;
 } tdy;
 
-typedef deposit_raise {
+typedef struct deposit_raise {
     int count;
     double *cash;
     unsigned int *date;
@@ -73,7 +73,7 @@ typedef deposit_raise {
     unsigned int *year;
 } dep_r;
 
-typedef deposit_withdrawal {
+typedef struct deposit_withdrawal {
     int count;
     double *cash;
     unsigned int *date;
@@ -81,7 +81,7 @@ typedef deposit_withdrawal {
     unsigned int *year;
 } dep_w;
 
-typedef deposit_output {
+typedef struct deposit_output {
     double percent;
     double tax;
     double leftover;

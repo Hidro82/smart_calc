@@ -6,6 +6,85 @@ static GtkWidget *x_2;
 static GtkWidget *y_1;
 static GtkWidget *y_2;
 
+void grid_maker(cairo_t *brush, double x_zero, double y_zero, double x_scale, double y_scale) {
+  double offset = 0;
+  char num[10];
+
+  cairo_set_source_rgb (brush, 192.0, 192.0, 192.0);
+  offset = x_zero + 30;
+  while (offset < 300) {
+    cairo_move_to(brush, offset, 0);
+    cairo_line_to(brush, offset, 300);
+    cairo_stroke(brush);
+    if (y_zero > 30)
+      cairo_move_to(brush, offset, y_zero - 5);
+    else
+      cairo_move_to(brush, offset, y_zero + 10);
+    cairo_set_source_rgb (brush, 0.0, 0.0, 0.0);
+    gcvt((offset - x_zero) / x_scale, 6, num);
+    cairo_show_text(brush, num);
+    cairo_stroke(brush);
+    cairo_set_source_rgb (brush, 192.0, 192.0, 192.0);
+    offset += 30;
+  }
+  offset = x_zero - 30;
+  while (offset > 0) {
+    cairo_move_to(brush, offset, 0);
+    cairo_line_to(brush, offset, 300);
+    cairo_stroke(brush);
+    if (y_zero > 30)
+      cairo_move_to(brush, offset, y_zero - 5);
+    else
+      cairo_move_to(brush, offset, y_zero + 10);
+    cairo_set_source_rgb (brush, 0.0, 0.0, 0.0);
+    gcvt((offset - x_zero) / x_scale, 6, num);
+    cairo_show_text(brush, num);
+    cairo_stroke(brush);
+    cairo_set_source_rgb (brush, 192.0, 192.0, 192.0);
+    offset -= 30;
+  }
+  offset = y_zero + 30;
+  while (offset < 300) {
+    cairo_move_to(brush, 0, offset);
+    cairo_line_to(brush, 300, offset);
+    cairo_stroke(brush);
+    if (x_zero > 30)
+      cairo_move_to(brush, x_zero - 10, offset);
+    else
+      cairo_move_to(brush, x_zero + 5, offset);
+    cairo_set_source_rgb (brush, 0.0, 0.0, 0.0);
+    gcvt(-(offset - y_zero) / y_scale, 6, num);
+    cairo_show_text(brush, num);
+    cairo_stroke(brush);
+    cairo_set_source_rgb (brush, 192.0, 192.0, 192.0);
+    offset += 30;
+  }
+  offset = y_zero - 30;
+  while (offset > 0) {
+    cairo_move_to(brush, 0, offset);
+    cairo_line_to(brush, 300, offset);
+    cairo_stroke(brush);
+    if (x_zero > 30)
+      cairo_move_to(brush, x_zero - 10, offset);
+    else
+      cairo_move_to(brush, x_zero + 5, offset);
+    cairo_set_source_rgb (brush, 0.0, 0.0, 0.0);
+    gcvt(-(offset - y_zero) / y_scale, 6, num);
+    cairo_show_text(brush, num);
+    cairo_stroke(brush);
+    cairo_set_source_rgb (brush, 192.0, 192.0, 192.0);
+    offset -= 30;
+  }
+  cairo_stroke(brush);
+
+  cairo_set_source_rgb(brush, 1.0, 0.0, 0.0);
+  cairo_move_to(brush, 0, y_zero);
+  cairo_line_to(brush, 300, y_zero);
+  cairo_move_to(brush, x_zero, 0);
+  cairo_line_to(brush, x_zero, 300);
+  cairo_stroke(brush);
+}
+
 gboolean smart_graph(GtkWidget *widget, cairo_t *brush, gpointer data) {
   stack_n N;
   stack_s S;
@@ -24,14 +103,8 @@ gboolean smart_graph(GtkWidget *widget, cairo_t *brush, gpointer data) {
   double y_zero = fabs(y_end) * y_scale;
   double x = x_start;
   double y = 0;
-  gdouble clip_x1 = 0, clip_y1 = 0, clip_x2 = 300, clip_y2 = 300;
 
-  cairo_set_source_rgb (brush, 1.0, 0.0, 0.0);
-  cairo_move_to (brush, clip_x1, y_zero);
-  cairo_line_to (brush, clip_x2, y_zero);
-  cairo_move_to (brush, x_zero, clip_y1);
-  cairo_line_to (brush, x_zero, clip_y2);
-  cairo_stroke(brush);
+  grid_maker(brush, x_zero, y_zero, x_scale, y_scale);
 
   cairo_set_source_rgb (brush, 0.0, 0.0, 1.0);
   og = strcat(og, "=");
