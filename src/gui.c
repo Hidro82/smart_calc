@@ -6,6 +6,78 @@ static GtkWidget *x_2;
 static GtkWidget *y_1;
 static GtkWidget *y_2;
 
+static GtkWidget *credit;
+static GtkWidget *percent;
+static GtkWidget *diff;
+static GtkWidget *time_amount;
+static GtkWidget *time_type;
+
+void credit_gui(GtkButton *button, gpointer data) {
+  GtkWidget *window;
+  GtkWidget *grid;
+  GtkWidget *message;
+  GtkWidget *start_button;
+
+  GtkWidget *cr_label;
+  GtkWidget *per_label;
+  GtkWidget *time_label;
+  GtkWidget *time_1;
+  GtkWidget *time_2;
+  GtkWidget *dif_1;
+  GtkWidget *dif_2;
+
+  window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_title(GTK_WINDOW(window), "Credit calculator");
+
+  grid = gtk_grid_new();
+  gtk_container_add(GTK_CONTAINER(window), grid);
+
+  message = gtk_label_new_with_mnemonic("Enter the parameters");
+  gtk_grid_attach(GTK_GRID(grid), message, 0, 0, 6, 1);
+
+  cr_label = gtk_label_new_with_mnemonic("Amount:");
+  gtk_grid_attach(GTK_GRID(grid), cr_label, 0, 1, 1, 1);
+
+  credit = gtk_entry_new();
+  gtk_grid_attach(GTK_GRID(grid), credit, 1, 1, 2, 1);
+
+  per_label = gtk_label_new_with_mnemonic("Percent:");
+  gtk_grid_attach(GTK_GRID(grid), per_label, 0, 2, 1, 1);
+
+  percent = gtk_entry_new();
+  gtk_grid_attach(GTK_GRID(grid), percent, 1, 2, 2, 1);
+
+  time_label = gtk_label_new_with_mnemonic("Time:");
+  gtk_grid_attach(GTK_GRID(grid), time_label, 0, 3, 1, 1);
+
+  time_amount = gtk_entry_new();
+  gtk_grid_attach(GTK_GRID(grid), time_amount, 1, 3, 2, 1);
+
+  time_1 = gtk_label_new_with_mnemonic("Months");
+  gtk_grid_attach(GTK_GRID(grid), time_1, 0, 4, 1, 1);
+
+  time_type = gtk_switch_new();
+  gtk_grid_attach(GTK_GRID(grid), time_type, 1, 4, 1, 1);
+
+  time_2 = gtk_label_new_with_mnemonic("Years");
+  gtk_grid_attach(GTK_GRID(grid), time_2, 2, 4, 1, 1);
+
+  dif_1 = gtk_label_new_with_mnemonic("Differ");
+  gtk_grid_attach(GTK_GRID(grid), dif_1, 0, 5, 1, 1);
+
+  diff = gtk_switch_new();
+  gtk_grid_attach(GTK_GRID(grid), diff, 1, 5, 1, 1);
+
+  dif_2 = gtk_label_new_with_mnemonic("Anuite");
+  gtk_grid_attach(GTK_GRID(grid), dif_2, 2, 5, 1, 1);
+
+  start_button = gtk_button_new_with_label("Start!");
+  g_signal_connect(start_button, "clicked", G_CALLBACK(credit_gui), NULL);
+  gtk_grid_attach(GTK_GRID(grid), start_button, 0, 6, 3, 1);
+
+  gtk_widget_show_all(window);
+}
+
 void grid_maker(cairo_t *brush, double x_zero, double y_zero, double x_scale, double y_scale) {
   double offset = 0;
   char num[10];
@@ -131,7 +203,7 @@ void graph_module() {
   GtkWidget *window;
   GtkWidget *canvas;
 
-  window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+  window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_set_default_size (GTK_WINDOW (window), 300, 300);
   gtk_window_set_title (GTK_WINDOW (window), "Graph drawing");
 
@@ -142,7 +214,6 @@ void graph_module() {
   g_signal_connect(canvas, "draw", G_CALLBACK(smart_graph), NULL);
 
   gtk_widget_show_all(window);
-
 }
 
 void coor_win() {
@@ -333,6 +404,7 @@ int main(int argc, char **argv) {
   GtkWidget *clear_button;
 
   GtkWidget *math_mod;
+  GtkWidget *credit_start;
 
   gtk_init(&argc, &argv);
   window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -435,6 +507,10 @@ int main(int argc, char **argv) {
   math_mod = gtk_button_new_with_label("math");
   g_signal_connect(math_mod, "clicked", G_CALLBACK(math_module), NULL);
   gtk_grid_attach(GTK_GRID(grid), math_mod, 5, 1, 1, 1);
+
+  credit_start = gtk_button_new_with_label("Cr");
+  g_signal_connect(credit_start, "clicked", G_CALLBACK(credit_gui), NULL);
+  gtk_grid_attach(GTK_GRID(grid), credit_start, 6, 1, 1, 1);
 
   gtk_widget_show_all(window);
   gtk_main();
