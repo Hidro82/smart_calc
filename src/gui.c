@@ -12,6 +12,41 @@ static GtkWidget *diff;
 static GtkWidget *time_amount;
 static GtkWidget *time_type;
 
+static GtkWidget *cred_res;
+static GtkWidget *cr_over;
+static GtkWidget *cr_pay;
+
+void credit_proc(GtkButton *button, gpointer data) {
+  cred_in I; 
+  cred_out O;
+  char buffer[256] = "";
+  char buffer_1[256] = "";
+  int position = 0;
+  int errCode = 0;
+
+  I.cash = atof((char *)gtk_entry_get_text(GTK_ENTRY(credit)));
+  I.percent = atof((char *)gtk_entry_get_text(GTK_ENTRY(percent)));
+  I.time = atof((char *)gtk_entry_get_text(GTK_ENTRY(time_amount)));
+  I.month = (int)gtk_switch_get_state(GTK_SWITCH(time_type));
+  I.differ = (int)gtk_switch_get_state(GTK_SWITCH(diff));
+
+  errCode = credit_calculus(&I, &O);
+
+  if (!errCode) {
+    gcvt(O.whole, 6, buffer);
+    gtk_label_set_text(GTK_LABEL(cred_res), buffer);
+    if(I.differ) {
+      sprintf(buffer_1, "%.2f..%.2f", O.monthly[0], O.monthly[1]);
+      gtk_label_set_text(GTK_LABEL(cr_pay), buffer_1);
+    } else {
+      gcvt(O.monthly[0], 6, buffer);
+      gtk_label_set_text(GTK_LABEL(cr_pay), buffer);
+    }
+    gcvt(O.over, 6, buffer);
+    gtk_label_set_text(GTK_LABEL(cr_over), buffer);
+  }
+}
+
 void credit_gui(GtkButton *button, gpointer data) {
   GtkWidget *window;
   GtkWidget *grid;
@@ -25,6 +60,10 @@ void credit_gui(GtkButton *button, gpointer data) {
   GtkWidget *time_2;
   GtkWidget *dif_1;
   GtkWidget *dif_2;
+
+  GtkWidget *result;
+  GtkWidget *monthly;
+  GtkWidget *overdraft;
 
   window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title(GTK_WINDOW(window), "Credit calculator");
@@ -53,27 +92,45 @@ void credit_gui(GtkButton *button, gpointer data) {
   time_amount = gtk_entry_new();
   gtk_grid_attach(GTK_GRID(grid), time_amount, 1, 3, 2, 1);
 
-  time_1 = gtk_label_new_with_mnemonic("Months");
+  time_1 = gtk_label_new_with_mnemonic("Years");
   gtk_grid_attach(GTK_GRID(grid), time_1, 0, 4, 1, 1);
 
   time_type = gtk_switch_new();
   gtk_grid_attach(GTK_GRID(grid), time_type, 1, 4, 1, 1);
 
-  time_2 = gtk_label_new_with_mnemonic("Years");
+  time_2 = gtk_label_new_with_mnemonic("Months");
   gtk_grid_attach(GTK_GRID(grid), time_2, 2, 4, 1, 1);
 
-  dif_1 = gtk_label_new_with_mnemonic("Differ");
+  dif_1 = gtk_label_new_with_mnemonic("Anuite");
   gtk_grid_attach(GTK_GRID(grid), dif_1, 0, 5, 1, 1);
 
   diff = gtk_switch_new();
   gtk_grid_attach(GTK_GRID(grid), diff, 1, 5, 1, 1);
 
-  dif_2 = gtk_label_new_with_mnemonic("Anuite");
+  dif_2 = gtk_label_new_with_mnemonic("Differ");
   gtk_grid_attach(GTK_GRID(grid), dif_2, 2, 5, 1, 1);
 
   start_button = gtk_button_new_with_label("Start!");
-  g_signal_connect(start_button, "clicked", G_CALLBACK(credit_gui), NULL);
+  g_signal_connect(start_button, "clicked", G_CALLBACK(credit_proc), NULL);
   gtk_grid_attach(GTK_GRID(grid), start_button, 0, 6, 3, 1);
+
+  result = gtk_label_new_with_mnemonic("Result:");
+  gtk_grid_attach(GTK_GRID(grid), result, 0, 7, 1, 1);
+
+  cred_res = gtk_label_new_with_mnemonic("0");
+  gtk_grid_attach(GTK_GRID(grid), cred_res, 1, 7, 1, 1);
+
+  monthly = gtk_label_new_with_mnemonic("Month pay:");
+  gtk_grid_attach(GTK_GRID(grid), monthly, 0, 8, 1, 1);
+
+  cr_pay = gtk_label_new_with_mnemonic("0");
+  gtk_grid_attach(GTK_GRID(grid), cr_pay, 1, 8, 1, 1);
+
+  overdraft = gtk_label_new_with_mnemonic("Overdraft:");
+  gtk_grid_attach(GTK_GRID(grid), overdraft, 0, 9, 1, 1);
+
+  cr_over = gtk_label_new_with_mnemonic("0");
+  gtk_grid_attach(GTK_GRID(grid), cr_over, 1, 9, 1, 1);
 
   gtk_widget_show_all(window);
 }

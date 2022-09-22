@@ -11,9 +11,9 @@ int credit_calculus(cred_in *I, cred_out *O) {
         errCode = 3;
 
     if (I->differ == 1)
-        errCode = differential(I, O);
+        differential(I, O);
     else
-        errCode = annuite(I, O);
+        annuite(I, O);
 
     return errCode;
 }
@@ -31,7 +31,7 @@ void differential(cred_in *I, cred_out *O) {
     double rue[pay_count];
 
     for (int i = 0; i < pay_count; i++) {
-        rue[i] = payday + (I->cash * procent / 1200);
+        rue[i] = payday + (I->cash * I->percent / 1200);
         I->cash -= payday;
         O->whole += rue[i];
     }
@@ -48,9 +48,9 @@ void annuite(cred_in *I, cred_out *O) {
         pay_count = I->time;
     else
         pay_count = I->time * 12;
-    O->montly[0] = I->cash * I->percent / 1200
+    O->monthly[0] = I->cash * I->percent / 1200
     * pow((1 + (I->percent)/1200), pay_count)
     / (pow((1 + (I->percent)/1200), pay_count) - 1);
-    O->whole = O->monthly * pay_count;
+    O->whole = O->monthly[0] * pay_count;
     O->over = O->whole - I->cash;
 }
