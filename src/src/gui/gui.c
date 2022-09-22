@@ -1,27 +1,10 @@
-#include "calc.h"
-
-static GtkWidget *entry_string;
-static GtkWidget *x_1;
-static GtkWidget *x_2;
-static GtkWidget *y_1;
-static GtkWidget *y_2;
-
-static GtkWidget *credit;
-static GtkWidget *percent;
-static GtkWidget *diff;
-static GtkWidget *time_amount;
-static GtkWidget *time_type;
-
-static GtkWidget *cred_res;
-static GtkWidget *cr_over;
-static GtkWidget *cr_pay;
+#include "gui.h"
 
 void credit_proc(GtkButton *button, gpointer data) {
-  cred_in I; 
+  cred_in I;
   cred_out O;
   char buffer[256] = "";
   char buffer_1[256] = "";
-  int position = 0;
   int errCode = 0;
 
   I.cash = atof((char *)gtk_entry_get_text(GTK_ENTRY(credit)));
@@ -35,7 +18,7 @@ void credit_proc(GtkButton *button, gpointer data) {
   if (!errCode) {
     gcvt(O.whole, 6, buffer);
     gtk_label_set_text(GTK_LABEL(cred_res), buffer);
-    if(I.differ) {
+    if (I.differ) {
       sprintf(buffer_1, "%.2f..%.2f", O.monthly[0], O.monthly[1]);
       gtk_label_set_text(GTK_LABEL(cr_pay), buffer_1);
     } else {
@@ -135,11 +118,12 @@ void credit_gui(GtkButton *button, gpointer data) {
   gtk_widget_show_all(window);
 }
 
-void grid_maker(cairo_t *brush, double x_zero, double y_zero, double x_scale, double y_scale) {
+void grid_maker(cairo_t *brush, double x_zero, double y_zero, double x_scale,
+                double y_scale) {
   double offset = 0;
   char num[10];
 
-  cairo_set_source_rgb (brush, 192.0, 192.0, 192.0);
+  cairo_set_source_rgb(brush, 192.0, 192.0, 192.0);
   offset = x_zero + 30;
   while (offset < 300) {
     cairo_move_to(brush, offset, 0);
@@ -149,11 +133,11 @@ void grid_maker(cairo_t *brush, double x_zero, double y_zero, double x_scale, do
       cairo_move_to(brush, offset, y_zero - 5);
     else
       cairo_move_to(brush, offset, y_zero + 10);
-    cairo_set_source_rgb (brush, 0.0, 0.0, 0.0);
+    cairo_set_source_rgb(brush, 0.0, 0.0, 0.0);
     gcvt((offset - x_zero) / x_scale, 6, num);
     cairo_show_text(brush, num);
     cairo_stroke(brush);
-    cairo_set_source_rgb (brush, 192.0, 192.0, 192.0);
+    cairo_set_source_rgb(brush, 192.0, 192.0, 192.0);
     offset += 30;
   }
   offset = x_zero - 30;
@@ -165,11 +149,11 @@ void grid_maker(cairo_t *brush, double x_zero, double y_zero, double x_scale, do
       cairo_move_to(brush, offset, y_zero - 5);
     else
       cairo_move_to(brush, offset, y_zero + 10);
-    cairo_set_source_rgb (brush, 0.0, 0.0, 0.0);
+    cairo_set_source_rgb(brush, 0.0, 0.0, 0.0);
     gcvt((offset - x_zero) / x_scale, 6, num);
     cairo_show_text(brush, num);
     cairo_stroke(brush);
-    cairo_set_source_rgb (brush, 192.0, 192.0, 192.0);
+    cairo_set_source_rgb(brush, 192.0, 192.0, 192.0);
     offset -= 30;
   }
   offset = y_zero + 30;
@@ -181,11 +165,11 @@ void grid_maker(cairo_t *brush, double x_zero, double y_zero, double x_scale, do
       cairo_move_to(brush, x_zero - 10, offset);
     else
       cairo_move_to(brush, x_zero + 5, offset);
-    cairo_set_source_rgb (brush, 0.0, 0.0, 0.0);
+    cairo_set_source_rgb(brush, 0.0, 0.0, 0.0);
     gcvt(-(offset - y_zero) / y_scale, 6, num);
     cairo_show_text(brush, num);
     cairo_stroke(brush);
-    cairo_set_source_rgb (brush, 192.0, 192.0, 192.0);
+    cairo_set_source_rgb(brush, 192.0, 192.0, 192.0);
     offset += 30;
   }
   offset = y_zero - 30;
@@ -197,11 +181,11 @@ void grid_maker(cairo_t *brush, double x_zero, double y_zero, double x_scale, do
       cairo_move_to(brush, x_zero - 10, offset);
     else
       cairo_move_to(brush, x_zero + 5, offset);
-    cairo_set_source_rgb (brush, 0.0, 0.0, 0.0);
+    cairo_set_source_rgb(brush, 0.0, 0.0, 0.0);
     gcvt(-(offset - y_zero) / y_scale, 6, num);
     cairo_show_text(brush, num);
     cairo_stroke(brush);
-    cairo_set_source_rgb (brush, 192.0, 192.0, 192.0);
+    cairo_set_source_rgb(brush, 192.0, 192.0, 192.0);
     offset -= 30;
   }
   cairo_stroke(brush);
@@ -235,10 +219,9 @@ gboolean smart_graph(GtkWidget *widget, cairo_t *brush, gpointer data) {
 
   grid_maker(brush, x_zero, y_zero, x_scale, y_scale);
 
-  cairo_set_source_rgb (brush, 0.0, 0.0, 1.0);
+  cairo_set_source_rgb(brush, 0.0, 0.0, 1.0);
   og = strcat(og, "=");
-  if (x_1 > x_2)
-    errCode = 8;
+  if (x_1 > x_2) errCode = 8;
   while ((x <= x_end) && !errCode) {
     errCode = stacker(og, &N, &S, x, &y);
     if ((x == x_start) && !errCode) {
@@ -261,8 +244,8 @@ void graph_module() {
   GtkWidget *canvas;
 
   window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_default_size (GTK_WINDOW (window), 300, 300);
-  gtk_window_set_title (GTK_WINDOW (window), "Graph drawing");
+  gtk_window_set_default_size(GTK_WINDOW(window), 300, 300);
+  gtk_window_set_title(GTK_WINDOW(window), "Graph drawing");
 
   canvas = gtk_drawing_area_new();
   gtk_container_add(GTK_CONTAINER(window), canvas);
@@ -283,8 +266,8 @@ void coor_win() {
 
   GtkWidget *start_button;
 
-  window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title (GTK_WINDOW (window), "Graph prepare");
+  window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_title(GTK_WINDOW(window), "Graph prepare");
 
   grid = gtk_grid_new();
   gtk_container_add(GTK_CONTAINER(window), grid);
@@ -332,8 +315,7 @@ void smart_calc(GtkWidget *calculator, gpointer data) {
 
   og = strcat(og, "=");
   while (*og) {
-    if (*og == 'X')
-      X_here = 1;
+    if (*og == 'X') X_here = 1;
     og++;
     i++;
   }
@@ -349,10 +331,12 @@ void smart_calc(GtkWidget *calculator, gpointer data) {
 
   if (!errCode && !X_here) {
     gtk_entry_set_text(GTK_ENTRY(entry_string), "");
-    gtk_editable_insert_text((GtkEditable *)GTK_ENTRY(entry_string), buffer, -1, &position);
+    gtk_editable_insert_text((GtkEditable *)GTK_ENTRY(entry_string), buffer, -1,
+                             &position);
   } else if (!X_here) {
     gtk_entry_set_text(GTK_ENTRY(entry_string), "");
-    gtk_editable_insert_text((GtkEditable *)GTK_ENTRY(entry_string), error_codes(errCode), -1, &position);
+    gtk_editable_insert_text((GtkEditable *)GTK_ENTRY(entry_string),
+                             error_codes(errCode), -1, &position);
   }
 }
 
@@ -394,39 +378,48 @@ void math_module(GtkButton *button, gpointer data) {
   gtk_container_add(GTK_CONTAINER(window), grid);
 
   sin_button = gtk_button_new_with_label("sin");
-  g_signal_connect(sin_button, "clicked", G_CALLBACK(func_button_clicker), NULL);
+  g_signal_connect(sin_button, "clicked", G_CALLBACK(func_button_clicker),
+                   NULL);
   gtk_grid_attach(GTK_GRID(grid), sin_button, 7, 1, 1, 1);
 
   cos_button = gtk_button_new_with_label("cos");
-  g_signal_connect(cos_button, "clicked", G_CALLBACK(func_button_clicker), NULL);
+  g_signal_connect(cos_button, "clicked", G_CALLBACK(func_button_clicker),
+                   NULL);
   gtk_grid_attach(GTK_GRID(grid), cos_button, 8, 1, 1, 1);
 
   tan_button = gtk_button_new_with_label("tan");
-  g_signal_connect(tan_button, "clicked", G_CALLBACK(func_button_clicker), NULL);
+  g_signal_connect(tan_button, "clicked", G_CALLBACK(func_button_clicker),
+                   NULL);
   gtk_grid_attach(GTK_GRID(grid), tan_button, 9, 1, 1, 1);
 
   asin_button = gtk_button_new_with_label("asin");
-  g_signal_connect(asin_button, "clicked", G_CALLBACK(func_button_clicker), NULL);
+  g_signal_connect(asin_button, "clicked", G_CALLBACK(func_button_clicker),
+                   NULL);
   gtk_grid_attach(GTK_GRID(grid), asin_button, 7, 2, 1, 1);
 
   acos_button = gtk_button_new_with_label("acos");
-  g_signal_connect(acos_button, "clicked", G_CALLBACK(func_button_clicker), NULL);
+  g_signal_connect(acos_button, "clicked", G_CALLBACK(func_button_clicker),
+                   NULL);
   gtk_grid_attach(GTK_GRID(grid), acos_button, 8, 2, 1, 1);
 
   atan_button = gtk_button_new_with_label("atan");
-  g_signal_connect(atan_button, "clicked", G_CALLBACK(func_button_clicker), NULL);
+  g_signal_connect(atan_button, "clicked", G_CALLBACK(func_button_clicker),
+                   NULL);
   gtk_grid_attach(GTK_GRID(grid), atan_button, 9, 2, 1, 1);
 
   sqrt_button = gtk_button_new_with_label("sqrt");
-  g_signal_connect(sqrt_button, "clicked", G_CALLBACK(func_button_clicker), NULL);
+  g_signal_connect(sqrt_button, "clicked", G_CALLBACK(func_button_clicker),
+                   NULL);
   gtk_grid_attach(GTK_GRID(grid), sqrt_button, 7, 3, 1, 1);
 
   log_button = gtk_button_new_with_label("ln");
-  g_signal_connect(log_button, "clicked", G_CALLBACK(func_button_clicker), NULL);
+  g_signal_connect(log_button, "clicked", G_CALLBACK(func_button_clicker),
+                   NULL);
   gtk_grid_attach(GTK_GRID(grid), log_button, 8, 3, 1, 1);
 
   log10_button = gtk_button_new_with_label("log");
-  g_signal_connect(log10_button, "clicked", G_CALLBACK(func_button_clicker), NULL);
+  g_signal_connect(log10_button, "clicked", G_CALLBACK(func_button_clicker),
+                   NULL);
   gtk_grid_attach(GTK_GRID(grid), log10_button, 9, 3, 1, 1);
 
   gtk_widget_show_all(window);
@@ -558,7 +551,8 @@ int main(int argc, char **argv) {
   gtk_grid_attach(GTK_GRID(grid), X_button, 6, 4, 1, 1);
 
   clear_button = gtk_button_new_with_label("AC");
-  g_signal_connect(clear_button, "clicked", G_CALLBACK(clear_button_clicker), NULL);
+  g_signal_connect(clear_button, "clicked", G_CALLBACK(clear_button_clicker),
+                   NULL);
   gtk_grid_attach(GTK_GRID(grid), clear_button, 4, 1, 1, 1);
 
   math_mod = gtk_button_new_with_label("math");
