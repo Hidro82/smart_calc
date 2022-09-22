@@ -31,62 +31,66 @@ typedef struct credit_output {
   double whole;
 } cred_out;
 
-typedef struct deposit_input {
-  double cash;
-  unsigned int time;
-  /* time_flag:
-      0 - years
-      1 - months
-      2 - days */
-  unsigned int time_flag;
-  unsigned int date;
-  unsigned int month;
-  unsigned int year;
-  double percent;
-  double tax_per;
-  /* period:
-      0 - dayly
-      1 - weekly
-      2 - monthly
-      3 - quaterly
-      4 - twice a year
-      5 - once a year
-      6 - in the end */
-  unsigned int period;
-  unsigned int capitalize;
-} dep_in;
+// typedef struct deposit_input {
+//   double cash;
+//   unsigned int time;
+//   /* time_flag:
+//       0 - years
+//       1 - months
+//       2 - days */
+//   unsigned int time_flag;
+//   unsigned int date;
+//   unsigned int month;
+//   unsigned int year;
+//   double percent;
+//   double tax_per;
+//   /* period:
+//       0 - dayly
+//       1 - weekly
+//       2 - monthly
+//       3 - quaterly
+//       4 - twice a year
+//       5 - once a year
+//       6 - in the end */
+//   unsigned int period;
+//   unsigned int capitalize;
+// } dep_in;
 
-typedef struct calender {
-  unsigned int date;
-  unsigned int month;
-  unsigned int year;
-} tdy;
+// typedef struct calender {
+//   unsigned int date;
+//   unsigned int month;
+//   unsigned int year;
+// } tdy;
 
-typedef struct deposit_raise {
-  int count;
-  double *cash;
-  unsigned int *date;
-  unsigned int *month;
-  unsigned int *year;
-} dep_r;
+// typedef struct deposit_raise {
+//   int count;
+//   double *cash;
+//   unsigned int *date;
+//   unsigned int *month;
+//   unsigned int *year;
+// } dep_r;
 
-typedef struct deposit_withdrawal {
-  int count;
-  double *cash;
-  unsigned int *date;
-  unsigned int *month;
-  unsigned int *year;
-} dep_w;
+// typedef struct deposit_withdrawal {
+//   int count;
+//   double *cash;
+//   unsigned int *date;
+//   unsigned int *month;
+//   unsigned int *year;
+// } dep_w;
 
-typedef struct deposit_output {
-  double percent;
-  double tax;
-  double leftover;
-} dep_out;
+// typedef struct deposit_output {
+//   double percent;
+//   double tax;
+//   double leftover;
+// } dep_out;
 
 int operand_priority(char sign);
 int calc_brain(stack_n *N, stack_s *S);
 
+int sign_operator(stack_s *S, char og, char backup, char dbck);
+int brace_operator(stack_s *S, stack_n *N, char og, char *oper,
+                   int *brace_opened);
+int string_processor(char *og, stack_n *N, stack_s *S, double x_var);
 int stacker(char *og, stack_n *N, stack_s *S, double x_var, double *result);
 
 void push_number(stack_n *N, double *token);
@@ -111,9 +115,6 @@ void arctangens(stack_n *N);
 int square(stack_n *N);
 int log_nat(stack_n *N);
 int log_ten(stack_n *N);
-
-char *error_codes(int errCode);
-int num_checker(char *buffer);
 
 int credit_calculus(cred_in *I, cred_out *O);
 void differential(cred_in *I, cred_out *O);

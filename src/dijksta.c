@@ -114,7 +114,6 @@ int stacker(char *og, stack_n *N, stack_s *S, double x_var, double *result) {
   if (S->count > 0 && !errCode)
     while (S->count > 0 && !errCode) errCode = calc_brain(N, S);
   *result = N->num[0];
-  printf("last number: %f\n", N->num[0]);
   clear_stacks(N, S);
   return errCode;
 }

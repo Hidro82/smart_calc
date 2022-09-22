@@ -21,6 +21,8 @@ static GtkWidget *cred_res;
 static GtkWidget *cr_over;
 static GtkWidget *cr_pay;
 
+char *error_codes(int errCode);
+
 void credit_proc(GtkButton *button, gpointer data);
 void credit_gui(GtkButton *button, gpointer data);
 void grid_maker(cairo_t *brush, double x_zero, double y_zero, double x_scale,

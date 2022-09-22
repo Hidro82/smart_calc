@@ -1,4 +1,4 @@
-#include "calc.h"
+#include "../calc.h"
 
 /* It's a single function that returns an error message
     due to the code of an error */
