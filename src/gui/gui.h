@@ -1,9 +1,10 @@
 #ifndef SRC_GUI_H_
 #define SRC_GUI_H_
 
-#include "../calc.h"
 #include <cairo.h>
 #include <gtk/gtk.h>
+
+#include "../brains/calc.h"
 
 static GtkWidget *entry_string;
 static GtkWidget *x_1;
